@@ -1,4 +1,4 @@
-FLAGS = -Wall -Werror
+FLAGS = -Wall -Werror -pedantic
 
 all: bin build bin/p
 
