@@ -54,7 +54,7 @@ int min(int a, int b)
 
 void get_array(char* str, int p[])
 {
-    int n = strlen(str), i;
+    int n = slen(str), i;
     int c = 0, r = -1, rad; 
     for (i = 0; i < n; i++) {
         if (i <= r) {
