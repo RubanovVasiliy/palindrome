@@ -1,6 +1,7 @@
 #include "strings.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 int read_file(const char* in_file_name, const int p_len);
 int check_sym(const char sym, const char* incorrect);
@@ -37,7 +38,7 @@ int read_file(const char* in_file_name, const int p_len)
     for (int i = 0; i < size; i++) {
         char c = fgetc(in);
         if (!check_sym(c, incorrect_sym)) {
-            input[s] = c;
+            input[s] = tolower(c);
             s++;
         }
     }
