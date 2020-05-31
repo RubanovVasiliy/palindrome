@@ -43,3 +43,30 @@ int read_file(const char* in_file_name)
 
     return 0;
 }
+
+int min(int a, int b)
+{
+    if (a < b)
+        return a;
+    else
+        return b;
+}
+
+void get_array(char* str, int p[])
+{
+    int n = strlen(str), i;
+    int c = 0, r = -1, rad; 
+    for (i = 0; i < n; i++) {
+        if (i <= r) {
+            rad = min((r - i), p[2 * c - i]);
+        } else
+            rad = 0;
+        while (i + rad < n && i - rad >= 0 && str[i - rad] == str[i + rad]) 
+            rad++;
+        p[i] = rad - 1;
+        if ((i + rad - 1) > r) {
+            c = i;
+            r = i + rad - 1;
+        }
+    }
+}
