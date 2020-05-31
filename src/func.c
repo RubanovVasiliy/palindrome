@@ -54,14 +54,14 @@ int min(int a, int b)
 
 void get_array(char* str, int p[])
 {
-    int n = strlen(str), i;
-    int c = 0, r = -1, rad; 
+    int n = slen(str), i;
+    int c = 0, r = -1, rad;
     for (i = 0; i < n; i++) {
         if (i <= r) {
             rad = min((r - i), p[2 * c - i]);
         } else
             rad = 0;
-        while (i + rad < n && i - rad >= 0 && str[i - rad] == str[i + rad]) 
+        while (i + rad < n && i - rad >= 0 && str[i - rad] == str[i + rad])
             rad++;
         p[i] = rad - 1;
         if ((i + rad - 1) > r) {
@@ -69,4 +69,46 @@ void get_array(char* str, int p[])
             r = i + rad - 1;
         }
     }
+}
+
+int generate(char* str)
+{
+    int len = slen(str) * 2 + 1;
+    char* mod = calloc(len, 1);
+    int i = 0;
+    int k = 0;
+    for (i = 0; i < len; i++) {
+        if (i % 2 == 0)
+            mod[i] = '#';
+        else {
+            mod[i] = str[k];
+            k++;
+        }
+    }
+
+    mod[i] = '\0';
+    printf("mod: %s\n", mod);
+    printf("str: %s\n", str);
+
+    int l = slen(mod);
+    int p[l], temp, max = 2;
+    int m = max;
+    get_array(mod, p);
+
+    for (i = 0; i < l; i++) {
+        //printf(" %d %c\n", p[i], mod[i]);
+        if (p[i] >= m) {
+            m = p[i];
+            temp = i;
+
+            int t = temp / 2;
+            char* s = sdup(str);
+            s = s + t - (m / 2);
+            s[m] = '\0';
+            printf("%s\n", s);
+            m = max;
+        }
+    }
+
+    return 0;
 }
