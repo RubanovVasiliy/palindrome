@@ -1,6 +1,13 @@
 #include "strings.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+
+int read_file(const char* in_file_name);
+int check_sym(char sym, char* incorrect);
+int min(int a, int b);
+void get_array(char* str, int p[]);
+int generate(const char* str, const int p_len);
 
 int check_sym(char sym, char* incorrect)
 {
@@ -41,6 +48,7 @@ int read_file(const char* in_file_name)
 
     printf("%s\nlen:%ld\n", input, slen(input));
 
+    generate(input,1);
     return 0;
 }
 
@@ -69,4 +77,44 @@ void get_array(char* str, int p[])
             r = i + rad - 1;
         }
     }
+}
+
+int generate(const char* str, const int p_len)
+{
+    int len = 2 * slen(str) + 1;
+    char* mod = calloc(len, 1);
+    int i = 0;
+    int k = 0;
+    for (i = 0; i < len; i++) {
+        if (i % 2 == 0)
+            mod[i] = '#';
+        else {
+            mod[i] = str[k];
+            k++;
+        }
+    }
+    mod[i] = '\0';
+
+    int l = slen(mod);
+    int p[l], temp, max = p_len;
+    get_array(mod, p);
+
+    int count = 0;
+    int m = 0;
+
+    for (i = 0; i < l; i++) {
+        if (p[i] >= m) {
+            m = p[i];
+            temp = i;
+        } else if (!p[i] && m >= max) {
+            char* s = strdup(str);
+            s = s + (temp / 2) - (m / 2);
+            s[m] = '\0';
+            m = 0;
+            count++;
+            printf("%s\n", s);
+        }
+    }
+    free(mod);
+    return count;
 }
