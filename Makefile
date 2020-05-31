@@ -21,7 +21,7 @@ build:
 	mkdir -p build/src
 
 run: all
-	./bin/p source/text.txt
+	./bin/p source/text.txt $(v)
 
 .PHONY: clean
 
