@@ -1,15 +1,14 @@
 #include "strings.h"
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
-int read_file(const char* in_file_name);
-int check_sym(char sym, char* incorrect);
-int min(int a, int b);
-void get_array(char* str, int p[]);
-int generate(const char* str, const int p_len);
+int read_file(const char* in_file_name, const int p_len);
+int check_sym(const char sym, const char* incorrect);
+int min(const int a, const int b);
+void get_array(const char* str, unsigned long int p[]);
+int search_palimdromes(const char* str, const int p_len);
 
-int check_sym(char sym, char* incorrect)
+int check_sym(const char sym, const char* incorrect)
 {
     for (int i = 0; i < slen(incorrect); i++) {
         if (sym == incorrect[i]) {
@@ -19,7 +18,7 @@ int check_sym(char sym, char* incorrect)
     return 0;
 }
 
-int read_file(const char* in_file_name)
+int read_file(const char* in_file_name, const int p_len)
 {
     FILE* in = fopen(in_file_name, "r");
     if (!in) {
@@ -48,11 +47,11 @@ int read_file(const char* in_file_name)
 
     printf("%s\nlen:%ld\n", input, slen(input));
 
-    generate(input,1);
+    search_palimdromes(input, p_len);
     return 0;
 }
 
-int min(int a, int b)
+int min(const int a, const int b)
 {
     if (a < b)
         return a;
@@ -60,16 +59,16 @@ int min(int a, int b)
         return b;
 }
 
-void get_array(char* str, int p[])
+void get_array(const char* str, unsigned long int p[])
 {
     int n = slen(str), i;
-    int c = 0, r = -1, rad; 
+    int c = 0, r = -1, rad;
     for (i = 0; i < n; i++) {
         if (i <= r) {
             rad = min((r - i), p[2 * c - i]);
         } else
             rad = 0;
-        while (i + rad < n && i - rad >= 0 && str[i - rad] == str[i + rad]) 
+        while (i + rad < n && i - rad >= 0 && str[i - rad] == str[i + rad])
             rad++;
         p[i] = rad - 1;
         if ((i + rad - 1) > r) {
@@ -79,9 +78,9 @@ void get_array(char* str, int p[])
     }
 }
 
-int generate(const char* str, const int p_len)
+int search_palimdromes(const char* str, const int p_len)
 {
-    int len = 2 * slen(str) + 1;
+    unsigned long int len = 2 * slen(str) + 1;
     char* mod = calloc(len, 1);
     int i = 0;
     int k = 0;
@@ -96,7 +95,8 @@ int generate(const char* str, const int p_len)
     mod[i] = '\0';
 
     int l = slen(mod);
-    int p[l], temp, max = p_len;
+    unsigned long int p[l];
+    int temp, max = p_len;
     get_array(mod, p);
 
     int count = 0;
@@ -107,14 +107,15 @@ int generate(const char* str, const int p_len)
             m = p[i];
             temp = i;
         } else if (!p[i] && m >= max) {
-            char* s = strdup(str);
-            s = s + (temp / 2) - (m / 2);
-            s[m] = '\0';
+            char* s = calloc(m, 1);
+            mem_cpy(s, str + (temp / 2) - (m / 2), m);
             m = 0;
             count++;
             printf("%s\n", s);
+            free(s);
         }
     }
+    printf("%d\n", count);
     free(mod);
     return count;
 }
