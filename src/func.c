@@ -1,7 +1,7 @@
 #include "strings.h"
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 int read_file(const char* in_file_name, const int p_len);
 int check_sym(const char sym, const char* incorrect);
@@ -23,7 +23,7 @@ int read_file(const char* in_file_name, const int p_len)
 {
     FILE* in = fopen(in_file_name, "r");
     if (!in) {
-        printf("Error %s\n", in_file_name);
+        printf("Error %s not found\n", in_file_name);
         return -1;
     }
 
@@ -110,9 +110,10 @@ int search_palimdromes(const char* str, const int p_len)
         } else if (!p[i] && m >= max) {
             char* s = calloc(m, 1);
             mem_cpy(s, str + (temp / 2) - (m / 2), m);
+            s[m] = '\0';
+            printf("%s\n", s);
             m = 0;
             count++;
-            printf("%s\n", s);
             free(s);
         }
     }
