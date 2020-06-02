@@ -1,9 +1,9 @@
 FLAGS = -Wall -Werror -pedantic
 
-all: bin build bin/p
+all: bin build bin/palindrom
 
-bin/p: build/src/main.o build/src/func.o build/src/strings.o
-	gcc $(flags) build/src/main.o build/src/func.o build/src/strings.o -o bin/p
+bin/palindrom: build/src/main.o build/src/func.o build/src/strings.o
+	gcc $(flags) build/src/main.o build/src/func.o build/src/strings.o -o bin/palindrom
 
 build/src/main.o: src/main.c
 	gcc $(flags) -c src/main.c -o build/src/main.o
@@ -21,7 +21,7 @@ build:
 	mkdir -p build/src
 
 run: all
-	./bin/p source/text.txt $(v)
+	./bin/palindrom source/text.txt $(v)
 
 .PHONY: clean
 
