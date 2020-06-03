@@ -31,6 +31,11 @@ int read_file(const char* in_file_name, const int p_len)
     fseek(in, 0, SEEK_END);
     size = ftell(in);
 
+    if (size == 0) {
+        printf("Empty file\n");
+        return 0;
+    }
+
     char* input = calloc(size, 1);
     fseek(in, 0, SEEK_SET);
     int s = 0;
@@ -41,6 +46,10 @@ int read_file(const char* in_file_name, const int p_len)
             input[s] = tolower(c);
             s++;
         }
+    }
+    if (s == 0) {
+        printf("No correct symbols\n");
+        return 0;
     }
 
     input[s] = '\0';
